@@ -10,7 +10,7 @@ const app = express();
 //require a darabase connection
 const dbConnect = require('./db/dbConnect');
 const User = require('./db/userModel');
-
+const auth = require("./auth");
 
 //execute database connection
 dbConnect()
@@ -134,7 +134,27 @@ app.post("/login", (request, response) => {
 
 })
 
+//public endpoint freely available to tall the users
 
+app.get("/public-endpoint", (request, response) => {
+    response.json({
+        message: "You are free to access this route any time"
+    })
+})
+
+//private-endpoint
+
+app.get("/private-endpoint", auth, (request, response) => {
+    response.json({
+        message: "You are authorised to access this route"
+    })
+})
+
+app.get("/private-endpoint-two", auth, (request, response) => {
+    response.json({
+        message: "You are authorised to access orders page"
+    })
+})
 
 
 
